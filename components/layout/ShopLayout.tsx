@@ -1,4 +1,4 @@
-import { Navbar } from "components/ui";
+import { Navbar, SideMenu } from "components/ui";
 import Head from "next/head"
 import { FC } from "react";
 
@@ -21,12 +21,17 @@ export const ShopLayout:FC<Props> = ({ children, title, pageDescription, imageFu
             }
             <title>{title}</title>
         </Head>
+
         <nav>
             <Navbar />
         </nav>
+
+        <SideMenu />
+
         <main style={{margin: '80px auto', maxWidth: '1440px', padding: '0 30px'}}>
             { children }
         </main>
+        
         <footer></footer>
     </>
   )
