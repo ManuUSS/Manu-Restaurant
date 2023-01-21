@@ -1,9 +1,9 @@
 
 .each-slide > div {
-    display: flex;
-    justify-content: center;
-    background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    height: 650px;
+    background-size: contain;
+    display: flex;
+    height: 550px; 
+    justify-content: center;
 }
