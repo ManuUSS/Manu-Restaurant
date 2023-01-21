@@ -1,4 +1,4 @@
-import { Card, CardActionArea, CardMedia, Grid, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { ShopLayout } from "components/layout";
 import { ProductList } from 'components/products';
 import { initialData } from 'database/products';
