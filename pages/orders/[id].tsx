@@ -1,13 +1,24 @@
 import React from 'react';
-import { Typography, Grid, Card, CardContent, Divider, Box, Button, Link } from '@mui/material';
+import NextLink from 'next/link';
+import { Typography, Grid, Card, CardContent, Divider, Box, Button, Link, Chip } from '@mui/material';
+import { CreditCardOffOutlined, CreditScoreOutlined } from '@mui/icons-material';
 import { CartList, OrderSummary } from 'components/cart';
 import { ShopLayout } from 'components/layout';
 
-const SummaryPage = () => {
+const OrderPage = () => {
   return (
-    <ShopLayout title="Resumen de la compra" pageDescription="Resumen de la orden">
+    <ShopLayout title="Resumen de la orden 1223" pageDescription="Resumen de la orden">
         <>
-            <Typography variant="h1" component="h1">Resumen de la orden</Typography>
+            <Typography variant="h1" component="h1">Orden: ABC123</Typography>
+
+            <Chip 
+                sx={{ my: 2}} 
+                label='Pendiente de pago' 
+                variant='outlined' 
+                color='error' 
+                icon={ <CreditCardOffOutlined />}
+            />
+            
 
             <Grid container>
                 <Grid item xs={ 12 } sm={ 7 }>
@@ -49,9 +60,14 @@ const SummaryPage = () => {
 
                             
                             <Box sx={{ mt: 3 }}>
-                                <Button color="secondary" className="circular-btn" fullWidth>
-                                    Confirmar orden
-                                </Button>
+                                <h1>Pagar</h1>
+                                <Chip 
+                                    sx={{ my: 2}} 
+                                    label='Orden pagada' 
+                                    variant='outlined' 
+                                    color='success' 
+                                    icon={ <CreditScoreOutlined />}
+                                />
                             </Box>
 
                         </CardContent>
@@ -64,4 +80,4 @@ const SummaryPage = () => {
   )
 }
 
-export default SummaryPage
+export default OrderPage
