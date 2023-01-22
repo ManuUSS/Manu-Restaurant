@@ -1,4 +1,5 @@
 import React from 'react';
+import NextLink from 'next/link';
 import { Typography, Grid, Card, CardContent, Divider, Box, Button, Link } from '@mui/material';
 import { CartList, OrderSummary } from 'components/cart';
 import { ShopLayout } from 'components/layout';
