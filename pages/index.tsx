@@ -13,7 +13,7 @@ export default function Home() {
     <ShopLayout title='Manu - Shop' pageDescription="Encuentra los mejores productos de Tesla aquí">
       <>
         <Typography variant='h1' component='h1'>Tienda</Typography>
-        <Typography variant='h2' component='h2' sx={{ mb: 1 }}>Todos los productos</Typography>
+        <Typography fontSize={ 14 } sx={{ mb: 1 }} component='h2'>Todos los productos</Typography>
         
         {
           isLoading ? <Loader /> : <ProductList  products={ products } />
