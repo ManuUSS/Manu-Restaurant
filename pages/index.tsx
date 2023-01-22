@@ -1,6 +1,7 @@
 import { Typography } from '@mui/material'
 import { ShopLayout } from "components/layout";
 import { ProductList } from 'components/products';
+import { Loader } from 'components/ui';
 import { initialData } from 'database/products';
 import { useProducts } from 'hooks';
 
@@ -15,7 +16,7 @@ export default function Home() {
         <Typography variant='h2' component='h2' sx={{ mb: 1 }}>Todos los productos</Typography>
         
         {
-          isLoading ? <h1>Cargando</h1> : <ProductList  products={ products } />
+          isLoading ? <Loader /> : <ProductList  products={ products } />
         }
 
       </>
