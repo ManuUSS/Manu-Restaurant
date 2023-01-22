@@ -18,8 +18,8 @@ const SearchPage:NextPage<Props> = ({ products, foundProducts, query }) => {
           <Typography variant='h1' component='h1'>Buscar productos</Typography>
           {
             foundProducts 
-            ? <Typography fontSize={ 14 } sx={{ mb: 1 }} component='h2'>Resultados de la búsqueda {query}</Typography>
-            : <Typography fontSize={ 14 } sx={{ mb: 1 }} component='h2'>No se encontraron productos con: { query }</Typography>
+            ? <Typography fontSize={ 14 } sx={{ mb: 1 }} component='h2' textTransform='capitalize'>Resultados de la búsqueda {query}</Typography>
+            : <Typography fontSize={ 14 } sx={{ mb: 1 }} component='h2' textTransform='capitalize'>No se encontraron productos con: { query }</Typography>
           }
           
           
