@@ -1,8 +1,13 @@
+import { useMemo } from 'react';
+import { useRouter } from 'next/router';
 import NextLink from 'next/link';
 import { AppBar, Badge, Box, Button, IconButton, Link, Toolbar, Typography } from '@mui/material';
 import { SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material';
 
 export const Navbar = () => {
+
+    const { pathname } = useRouter(); 
+
   return (
     <AppBar>
 
@@ -17,19 +22,19 @@ export const Navbar = () => {
 
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                 <NextLink href='/category/men' passHref legacyBehavior>
-                    <Link>
+                    <Link underline={ pathname === '/category/men' ? 'always' : 'none' } >
                         <Button>Hombres</Button>
                     </Link>
                 </NextLink>
 
                 <NextLink href='/category/women' passHref legacyBehavior>
-                    <Link>
+                    <Link underline={ pathname === '/category/women' ? 'always' : 'none' } >
                         <Button>Mujeres</Button>
                     </Link>
                 </NextLink>
 
                 <NextLink href='/category/kid' passHref legacyBehavior>
-                    <Link>
+                    <Link underline={ pathname === '/category/kid' ? 'always' : 'none' } >
                         <Button>Niños</Button>
                     </Link>
                 </NextLink>
