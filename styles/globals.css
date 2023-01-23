@@ -19,8 +19,8 @@
   animation-name: fadeIn;
 }
 
-.circular-btn.success:hover {
-  background-color: #00693c !important;
+.circular-btn.warning:hover {
+  background-color: #b97033 !important;
 }
 
 button.circular-btn {

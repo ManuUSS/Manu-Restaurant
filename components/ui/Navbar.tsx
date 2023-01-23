@@ -66,7 +66,7 @@ export const Navbar = () => {
                         onKeyPress={ (e) => e.key === 'Enter' ? onSearchTerm() : null }
                         type='text'
                         placeholder="Buscar..."
-                        sx={{ display: { xs: 'none', sm: 'block' } }}
+                        sx={{ display: { xs: 'none', sm: 'flex' } }}
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
@@ -81,7 +81,7 @@ export const Navbar = () => {
                 )
                 : (
                     <IconButton
-                        sx={{ display: { xs: 'none', sm:'block' } }}
+                        sx={{ display: { xs: 'none', sm:'flex' } }}
                         className='fadeIn'
                         onClick={ () => setIsSearchVisible( true ) }
                     >
@@ -90,7 +90,7 @@ export const Navbar = () => {
                 )
             }
             <IconButton
-                sx={{ display: { xs: 'block', sm:'none' } }}
+                sx={{ display: { xs: 'flex', sm:'none' } }}
                 onClick={ toggleSideMenu }
             >
                 <SearchOutlined />

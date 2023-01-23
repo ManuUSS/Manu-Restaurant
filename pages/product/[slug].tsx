@@ -101,8 +101,8 @@ const ProductPage:NextPage<Props> = ({ product }) => {
             }
 
             <Button 
-              color='success'
-              className='circular-btn success'
+              color='warning'
+              className='circular-btn warning'
               onClick={ () => router.push('/cart')}
               sx={{ mt: 1 }}
             >
