@@ -33,11 +33,21 @@ const ProductPage:NextPage<Props> = ({ product }) => {
               <SizeSelector sizes={ product.sizes }  />
             </Box>
 
-            <Button color='secondary' className='circular-btn' id='button-product'>
-              Agregar al carrito
-            </Button>
+            {
+              ( product.inStock > 0 ) 
+              ? 
+              ( 
+                <Button color='secondary' className='circular-btn' id='button-product'>
+                  Agregar al carrito
+                </Button> 
+              )
+              : 
+              (
+                <Chip  label='No hay disponibles' color='error' variant='outlined' />
+              ) 
+            }
             
-            <Chip  label='No hay disponibles' color='error' variant='outlined' />
+            
 
             <Box sx={{ mt: 3 }}>
               <Typography variant='subtitle2'>Descripción</Typography>
