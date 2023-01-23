@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useState, useContext } from 'react';
 import { GetStaticProps, GetStaticPaths, NextPage } from 'next';
 import { Box, Button, Grid, Typography, Chip } from '@mui/material';
 import { ItemCouter } from 'components/cart';
@@ -8,12 +8,17 @@ import { ProductSlideshow, SizeSelector } from 'components/products';
 import { dbProducts } from 'database';
 import { IProduct, ICartProduct } from '../../interfaces';
 import { ISize } from '../../interfaces/products';
+import { useRouter } from 'next/router';
+import { CartContext } from '../../context/cart/CartContext';
 
 interface Props {
   product: IProduct
 }
 
 const ProductPage:NextPage<Props> = ({ product }) => {
+
+  const router = useRouter();
+  const { addProductToCart } = useContext( CartContext );
 
   const [ tempCartProduct, setTempCartProduct ] = useState<ICartProduct>({
     _id : product._id,
@@ -38,6 +43,11 @@ const ProductPage:NextPage<Props> = ({ product }) => {
       ...currentProduct,
       quantity: newQuantity
     }))
+  }
+
+  const onAddProduct = () => {
+    if( !tempCartProduct.size ) return;
+    addProductToCart( tempCartProduct );
   }
 
   return (
@@ -71,7 +81,12 @@ const ProductPage:NextPage<Props> = ({ product }) => {
               ( product.inStock > 0 ) 
               ? 
               ( 
-                <Button color='secondary' className='circular-btn' id='button-product'>
+                <Button 
+                  color='secondary' 
+                  className='circular-btn' 
+                  id='button-product'
+                  onClick={ onAddProduct }
+                >
                   {
                     tempCartProduct.size
                     ? 'Agregar al carrito'
@@ -84,8 +99,14 @@ const ProductPage:NextPage<Props> = ({ product }) => {
                 <Chip  label='No hay disponibles' color='error' variant='outlined' />
               ) 
             }
-            
-            
+
+            <Button 
+              color='success'
+              className='circular-btn success'
+              onClick={ () => router.push('/cart')}
+            >
+              Ver el carrito de compras
+            </Button> 
 
             <Box sx={{ mt: 3 }}>
               <Typography variant='subtitle2'>Descripción</Typography>

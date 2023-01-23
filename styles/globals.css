@@ -19,6 +19,10 @@
   animation-name: fadeIn;
 }
 
+.circular-btn.success:hover {
+  background-color: #228b5f !important;
+}
+
 button.circular-btn {
   border-radius: 30px !important;
 }
