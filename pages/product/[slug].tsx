@@ -1,3 +1,4 @@
+import { MouseEvent, useState } from 'react';
 import { GetStaticProps, GetStaticPaths, NextPage } from 'next';
 import { Box, Button, Grid, Typography, Chip } from '@mui/material';
 import { ItemCouter } from 'components/cart';
@@ -5,14 +6,32 @@ import { ShopLayout } from "components/layout";
 import { ProductSlideshow, SizeSelector } from 'components/products';
 
 import { dbProducts } from 'database';
-import { IProduct } from '../../interfaces/products';
-
+import { IProduct, ICartProduct } from '../../interfaces';
+import { ISize } from '../../interfaces/products';
 
 interface Props {
   product: IProduct
 }
 
 const ProductPage:NextPage<Props> = ({ product }) => {
+
+  const [ tempCartProduct, setTempCartProduct ] = useState<ICartProduct>({
+    _id : product._id,
+    image : product.images[0],
+    price : product.price,
+    size : undefined,
+    slug : product.slug,
+    title : product.title,
+    gender : product.gender,
+    quantity : 1
+  });
+
+  const onSelectedSize = ( size: ISize ) => {
+    setTempCartProduct( currentProduct => ({
+      ...currentProduct,
+      size
+    }) )
+  }
 
   return (
     <ShopLayout title={ product.title } pageDescription={ product.description }>
@@ -30,7 +49,11 @@ const ProductPage:NextPage<Props> = ({ product }) => {
             <Box sx={{ marginY: 2 }}>
               <Typography variant='subtitle2' component='h3'>Cantidad</Typography>
               <ItemCouter />
-              <SizeSelector sizes={ product.sizes }  />
+              <SizeSelector
+                onSelectedSize={ onSelectedSize }
+                sizes={ product.sizes } 
+                selectedSize={ tempCartProduct.size } 
+              />
             </Box>
 
             {
@@ -38,7 +61,11 @@ const ProductPage:NextPage<Props> = ({ product }) => {
               ? 
               ( 
                 <Button color='secondary' className='circular-btn' id='button-product'>
-                  Agregar al carrito
+                  {
+                    tempCartProduct.size
+                    ? 'Agregar al carrito'
+                    : 'Seleccione una talla'
+                  }
                 </Button> 
               )
               : 
