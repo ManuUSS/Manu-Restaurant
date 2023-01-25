@@ -4,7 +4,7 @@ import { ShopLayout } from "components/layout"
 
 const CartPage = () => {
   return (
-    <ShopLayout title="Carrito - " pageDescription="Carrito de compras de la tienda">
+    <ShopLayout title="Carrito de compras " pageDescription="Carrito de compras de la tienda">
         <>
             <Typography variant="h1" component="h1">Carrito de compras</Typography>
 

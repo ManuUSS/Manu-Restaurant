@@ -41,7 +41,8 @@ export const CartProvider:FC<Props> = ({ children }) => {
 
     useEffect(() => {
         
-        Cookie.set( 'cart', JSON.stringify( state.cart ) );
+        Cookie.set('cart', JSON.stringify( state.cart ), { expires: 10, secure: false } );
+
     }, [ state.cart ]);
 
     useEffect(() => {
@@ -99,7 +100,11 @@ export const CartProvider:FC<Props> = ({ children }) => {
 
 
     return (
-        <CartContext.Provider value={{ ...state, addProductToCart, updateCartQuantity,removeProductFromCart }}>
+        <CartContext.Provider value={{ ...state, 
+            addProductToCart, 
+            removeProductFromCart, 
+            updateCartQuantity
+        }}>
             {children}
         </CartContext.Provider>
     )

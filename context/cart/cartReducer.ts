@@ -20,9 +20,9 @@ export const cartReducer = ( state: CartState, action:CartActionType ): CartStat
      switch ( action.type ) {
           case '[Cart] - LoadCart from cookies':   
             return {
-                ...state,
-                cart: [ ...action.payload ]
-            }
+                    ...state,
+                    cart: [ ...action.payload ]
+                }
 
             case '[Cart] - Add Product':
                 return {
@@ -33,7 +33,7 @@ export const cartReducer = ( state: CartState, action:CartActionType ): CartStat
             case '[Cart] - Remove Product':
                 return {
                         ...state,
-                        cart: state.cart.filter( ( cartProduct ) => cartProduct._id !== action.payload._id && cartProduct.size !== action.payload.size )
+                        cart: state.cart.filter( ( cartProduct ) => !( cartProduct._id === action.payload._id && cartProduct.size === action.payload.size ) )
                 }
 
             case '[Cart] - Change cart quantity':
