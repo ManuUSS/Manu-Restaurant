@@ -1,9 +1,9 @@
 import { FC, useContext } from 'react';
 import NextLink from 'next/link'
 import { Box, Button, CardActionArea, CardMedia, Grid, Link, Typography } from "@mui/material";
-import { initialData } from "database/products"
 import { ItemCouter } from './';
 import { CartContext } from '../../context/cart/CartContext';
+import { ICartProduct } from 'interfaces';
 
 interface Props {
     editable?: boolean
@@ -11,15 +11,22 @@ interface Props {
 
 export const CartList: FC<Props> = ({ editable = false }) => {
 
-    const { cart } = useContext( CartContext );
+    const { cart, updateCartQuantity } = useContext( CartContext );
+
+    const onNewCartQuantity = ( product: ICartProduct, newQuantityValue: number ) => {
+        
+        product.quantity = newQuantityValue;
+        updateCartQuantity( product );
+
+    }
 
   return (
     <>
         {
             cart.map( ( p ) => (
-                <Grid container spacing={ 2 } key={p.slug} sx={{ mb: 1 }}>
+                <Grid container spacing={ 2 } key={ p.slug + p.size } sx={{ mb: 1 }}>
                     <Grid item xs={ 3 }>
-                        <NextLink href="/product/slug" passHref legacyBehavior>
+                        <NextLink href={`/product/${ p.slug }`} passHref legacyBehavior>
                             <Link>
                                 <CardActionArea>
                                     <CardMedia 
@@ -39,7 +46,14 @@ export const CartList: FC<Props> = ({ editable = false }) => {
                         </Box>
                         {
                             editable
-                            ? <ItemCouter  currentValue={ p.quantity }  maxValue={ 10 }  updatedQuantity={ () => {} }/>
+                            ? 
+                            (
+                                <ItemCouter  
+                                    currentValue={ p.quantity }  
+                                    maxValue={ 10 }  
+                                    updatedQuantity={ ( newValue ) => onNewCartQuantity( p, newValue) }
+                                />
+                            )
                             : <Typography variant='h5' component='h5'>{ p.quantity } { p.quantity > 1 ? 'productos' : 'producto' }</Typography>
                              
                         }
