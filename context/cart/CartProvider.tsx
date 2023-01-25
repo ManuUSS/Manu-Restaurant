@@ -30,8 +30,25 @@ export const CartProvider:FC<Props> = ({ children }) => {
     }, [])
 
     useEffect(() => {
+        
         Cookie.set( 'cart', JSON.stringify( state.cart ) );
-    }, [ state.cart ])
+
+    }, [ state.cart ]);
+
+    useEffect(() => {
+        
+        const numberOfItems =  state.cart.reduce( ( prev, current ) => current.quantity + prev, 0 );
+        const subTotal =  state.cart.reduce( ( prev, current ) => ( current.price * current.quantity ) + prev, 0 );
+        const taxRate =  Number( process.env.NEXT_PUBLIC_TAX_RATE || 0 ) * subTotal;
+
+        const orderSumm = {
+            numberOfItems,
+            subTotal,
+            taxRate,
+            total: subTotal * ( taxRate !== 0 ? taxRate : 1 )
+        }
+
+    }, [ state.cart ]);
     
 
     const addProductToCart = ( product: ICartProduct ) => {

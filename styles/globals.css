@@ -23,6 +23,10 @@
   background-color: #b97033 !important;
 }
 
+.circular-btn.outlined:hover {
+  background-color: #ebeaea !important;
+}
+
 button.circular-btn {
   border-radius: 30px !important;
 }
