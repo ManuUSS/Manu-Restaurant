@@ -2,7 +2,7 @@ import { db } from 'database';
 import { User } from 'models';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import bcrypt from 'bcryptjs';
-import { jasonwebtoken } from 'utils';
+import { jasonwebtoken, validations } from 'utils';
 
 type Data = 
 | { message: string }
@@ -34,6 +34,9 @@ const registerUser = async ( req: NextApiRequest, res: NextApiResponse<Data> ) =
     
     if( name.length < 2 ) return res.status( 400 ).json({ message: 'El nombre debe ser de mínimo 2 caracteres' });
 
+    if( !validations.isValidEmail( email ) ) {
+        return res.status( 400 ).json({ message: 'El correo no parece tener un formato válido' });
+    }
     
     await db.connect();
     const user = await User.findOne({ email });
