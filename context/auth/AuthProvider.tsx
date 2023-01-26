@@ -33,6 +33,8 @@ export const AuthProvider:FC<Props> = ({ children }) => {
     
     const checkToken = async () => {
 
+        if( !Cookie.get('token') ) return;
+
         try {
             const { data } = await shopApi.get( '/user/validate-token');
             const { token, user } = data;
