@@ -31,6 +31,7 @@ const LoginPage = () => {
         if( !isValidLogin ) {
             setShowError( true );
             setTimeout( () => setShowError( false ), 3000);
+            return;
         }
 
         router.replace('/');

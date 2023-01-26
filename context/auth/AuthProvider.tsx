@@ -1,4 +1,4 @@
-import { FC, useReducer } from 'react';
+import { FC, useReducer, useEffect } from 'react';
 import { AuthContext, authReducer } from './';
 import { IUser } from '../../interfaces/user';
 import { shopApi } from 'api';
@@ -24,6 +24,27 @@ interface Props {
 export const AuthProvider:FC<Props> = ({ children }) => {
 
     const [ state, dispatch ] = useReducer( authReducer, AUTH_INITIAL_STATE );
+
+    useEffect(() => {
+        
+        checkToken();
+    
+    }, [])
+    
+    const checkToken = async () => {
+
+        try {
+            const { data } = await shopApi.get( '/user/validate-token');
+            const { token, user } = data;
+    
+            Cookie.set('token', token);
+            dispatch({ type: '[Auth] - Login', payload: user });
+        } catch ( error ) {
+            Cookie.remove('token')
+        }   
+
+
+    }
 
     const loginUser = async ( email:string, password:string ): Promise<boolean> => {
         try {

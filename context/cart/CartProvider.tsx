@@ -29,6 +29,12 @@ export const CartProvider:FC<Props> = ({ children }) => {
     const [ state, dispatch ] = useReducer( cartReducer, CART_INITIAL_STATE );
 
     useEffect(() => {
+        
+        Cookie.set('cart', JSON.stringify( state.cart ));
+
+    }, [ state.cart ]);
+
+    useEffect(() => {
 
         try {
             const cookiesCart =  Cookie.get('cart') ? JSON.parse( Cookie.get('cart')! ) : [];
@@ -39,11 +45,7 @@ export const CartProvider:FC<Props> = ({ children }) => {
 
     }, []);
 
-    useEffect(() => {
-        
-        Cookie.set('cart', JSON.stringify( state.cart ), { expires: 10, secure: false } );
-
-    }, [ state.cart ]);
+    
 
     useEffect(() => {
         

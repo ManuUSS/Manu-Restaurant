@@ -1,7 +1,6 @@
 import { db } from 'database';
 import { User } from 'models';
-import type { NextApiRequest, NextApiResponse } from 'next'
-import bcrypt from 'bcryptjs';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { jasonwebtoken } from 'utils';
 
 type Data = 
