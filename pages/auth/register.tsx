@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import NextLink from 'next/link'
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { Box, Button, Grid, Link, TextField, Typography, Chip } from '@mui/material';
 import { AuthLayout } from "components/layout"
 import { ErrorOutline } from '@mui/icons-material';
 import { validations } from 'utils';
 import shopApi from '../../api/shopApi';
+import { AuthContext } from 'context';
 
 type FormData = {
     name: string;
@@ -15,7 +17,11 @@ type FormData = {
 
 const RegisterPage = () => {
 
+    const { registerUser } = useContext( AuthContext );
     const [ showError, setShowError ] = useState( false );
+    const [ errorMessage, setErrorMessage ] = useState('');
+
+    const router = useRouter();
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>();
 
@@ -23,19 +29,16 @@ const RegisterPage = () => {
 
         setShowError( false );
 
-        try {
+        const { hasError, message } = await registerUser( name, email, password );
 
-            const { data } = await shopApi.post( '/user/register', { name, email, password });
-            const { token, user } = data;
-            console.log({ token, user });
-            
-        } catch ( error ) {
-
-            console.log( error );
+        if( hasError ) {
             setShowError( true );
+            setErrorMessage( message! );
             setTimeout( () => setShowError( false ), 3000);
-        
+            return;
         }
+        
+        router.replace('/');
 
     }
 

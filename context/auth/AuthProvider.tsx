@@ -3,6 +3,7 @@ import { AuthContext, authReducer } from './';
 import { IUser } from '../../interfaces/user';
 import { shopApi } from 'api';
 import Cookie from 'js-cookie';
+import axios from 'axios';
 
 
 export interface AuthState {
@@ -37,8 +38,35 @@ export const AuthProvider:FC<Props> = ({ children }) => {
         }
     }
 
+    const registerUser = async ( name: string, email: string, password: string ): Promise<{hasError: boolean; message?: string}> => {
+
+        try {
+            const { data } = await shopApi.post( 'user/register', { email, password });
+            const { token, user } = data;
+            Cookie.set('token', token);
+            dispatch({ type: '[Auth] - Login', payload: user })
+            return {
+                hasError: false
+            };
+        } catch ( error ) {
+            if( axios.isAxiosError( error ) ) {
+                return {
+                    hasError: true,
+                    message: error.response?.data.message
+                }
+            }
+
+            return {
+                hasError: true,
+                message: 'No se pudo crear el usuario, intente de nuevo'
+            }
+
+        }
+
+    } 
+
     return (
-        <AuthContext.Provider value={{ ...state, loginUser }}>
+        <AuthContext.Provider value={{ ...state, loginUser, registerUser }}>
             {children}
         </AuthContext.Provider>
     )
