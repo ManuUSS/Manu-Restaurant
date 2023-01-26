@@ -1,9 +1,10 @@
 import { FC, useReducer, useEffect } from 'react';
-import { AuthContext, authReducer } from './';
-import { IUser } from '../../interfaces/user';
-import { shopApi } from 'api';
+import { useRouter } from 'next/router';
 import Cookie from 'js-cookie';
 import axios from 'axios';
+import { shopApi } from 'api';
+import { IUser } from '../../interfaces/user';
+import { AuthContext, authReducer } from './';
 
 
 export interface AuthState {
@@ -24,6 +25,7 @@ interface Props {
 export const AuthProvider:FC<Props> = ({ children }) => {
 
     const [ state, dispatch ] = useReducer( authReducer, AUTH_INITIAL_STATE );
+    const router = useRouter();
 
     useEffect(() => {
         
@@ -88,8 +90,14 @@ export const AuthProvider:FC<Props> = ({ children }) => {
 
     } 
 
+    const logoutUser = () => {
+        Cookie.remove('token');
+        Cookie.remove('cart');
+        router.reload();
+    }
+
     return (
-        <AuthContext.Provider value={{ ...state, loginUser, registerUser }}>
+        <AuthContext.Provider value={{ ...state, loginUser, registerUser, logoutUser }}>
             {children}
         </AuthContext.Provider>
     )
