@@ -1,6 +1,7 @@
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography, Box } from '@mui/material';
+import { Button, FormControl, Grid, InputLabel, MenuItem, TextField, Typography, Box } from '@mui/material';
 import { ShopLayout } from "components/layout"
 import { jasonwebtoken } from 'utils';
 import { countries } from 'utils/countries';
@@ -18,27 +19,30 @@ type FormData = {
     phone: string;
 }
 
+const getAddressFromCookies = ():FormData => {
+    return {
+        firstName  : Cookie.get( 'firstName' ) || '',
+        lastName   : Cookie.get( 'lastName' ) || '',
+        address    : Cookie.get( 'address' ) || '',
+        address2   : Cookie.get( 'address2' ) || '',
+        zip        : Cookie.get( 'zip' ) || '',
+        city       : Cookie.get( 'city' ) || '',
+        country    : Cookie.get( 'country' ) || '',
+        phone      : Cookie.get( 'phone' ) || '',
+    }
+}
 
 
 const AddressPage = () => {
 
-    const [ showError, setShowError ] = useState( false );
+
+    const router = useRouter();
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>({
-        defaultValues: {
-            firstName:  '',
-            lastName:  '',
-            address:  '',
-            address2:  '',
-            zip:  '',
-            city:  '',
-            country:  countries[0].code,
-            phone:  '',
-        }
+        defaultValues: getAddressFromCookies()
     }); 
 
     const onSubmitAdress = ( data: FormData ) => {
-        setShowError( false );
         Cookie.set('firstName', data.firstName);
         Cookie.set('lastName', data.lastName );
         Cookie.set('address', data.address);
@@ -47,6 +51,7 @@ const AddressPage = () => {
         Cookie.set('city', data.city);
         Cookie.set('country', data.country);
         Cookie.set('phone', data. phone);
+        router.push('/checkout/summary');
     }
 
   return (
