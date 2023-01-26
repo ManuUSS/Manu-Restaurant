@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import NextLink from 'next/link'
-import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material"
+import { Box, Button, Chip, Grid, Link, TextField, Typography } from "@mui/material"
 import { useForm } from 'react-hook-form';
 import { AuthLayout } from "components/layout"
 import { validations } from 'utils';
+import { shopApi } from '../../api';
+import { ErrorOutline } from '@mui/icons-material';
 
 type FormData = {
     email: string,
@@ -11,19 +14,40 @@ type FormData = {
 
 const LoginPage = () => {
 
+    const [ showError, setShowError ] = useState( false );
+
     const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>();
 
-    const onLoginUser = () => {
+    const onLoginUser = async ({ email, password }: FormData) => {
+        setShowError( false );
+        try {
 
+            const { data } = await shopApi.post( '/user/login', { email, password });
+            const { token, user } = data;
+            console.log({ token, user });
+            
+        } catch ( error ) {
+            console.log( error );
+            setShowError( true );
+            setTimeout( () => setShowError( false ), 3000);
+        }
     }
 
   return (
     <AuthLayout title="Ingresar">
-        <form onSubmit={ handleSubmit( onLoginUser ) }>
+        <form onSubmit={ handleSubmit( onLoginUser ) } noValidate >
             <Box sx={{ width: 350, padding: '10px 20px' }}>
                 <Grid container spacing={ 2 }>
                     <Grid item xs={12}>
                         <Typography variant="h1" component="h1" textAlign='center'>Iniciar sesión</Typography>
+                        <Chip 
+                            label="No conocemos ese usuario/contraseña" 
+                            color='error' 
+                            variant='outlined'
+                            icon={ <ErrorOutline /> } 
+                            className='fadeIn'
+                            sx={{ display: showError ? 'block' : ' none', marginY: 1 }}
+                        />
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
