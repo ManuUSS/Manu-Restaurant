@@ -56,7 +56,7 @@ export const SideMenu = () => {
                 </ListItem>
 
                 <ListItemButton
-                    sx={{ display: isLogin ? 'block' : 'none' }}
+                    sx={{ display: isLogin ? 'flex' : 'none' }}
                 >
                     <ListItemIcon>
                         <AccountCircleOutlined/>
@@ -65,7 +65,7 @@ export const SideMenu = () => {
                 </ListItemButton>
 
                 <ListItemButton
-                    sx={{ display: isLogin ? 'block' : 'none' }}
+                    sx={{ display: isLogin ? 'flex' : 'none' }}
                 >
                     <ListItemIcon>
                         <ConfirmationNumberOutlined/>
