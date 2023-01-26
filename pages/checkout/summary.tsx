@@ -1,10 +1,24 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import NextLink from 'next/link';
 import { Typography, Grid, Card, CardContent, Divider, Box, Button, Link } from '@mui/material';
 import { CartList, OrderSummary } from 'components/cart';
 import { ShopLayout } from 'components/layout';
+import { useContext } from 'react';
+import { CartContext } from '../../context/cart/CartContext';
+import { countries } from 'utils/countries';
 
 const SummaryPage = () => {
+
+    const { shippingAddress, numberOfItems } = useContext( CartContext );
+    console.log( shippingAddress );
+    if( !shippingAddress ) {
+        return <></>
+    }
+
+    const countryName = useMemo(() => countries.find( ( c ) => c.code === shippingAddress.country )?.name  , [ shippingAddress.country ]);
+
+    const { firstName,  lastName,  address,  city, phone, address2, zip } = shippingAddress;
+
   return (
     <ShopLayout title="Resumen de la compra" pageDescription="Resumen de la orden">
         <>
@@ -18,7 +32,7 @@ const SummaryPage = () => {
                     <Card className="summary-card">
                         <CardContent>
                             
-                            <Typography variant="h2" sx={{ mb: 1 }}>Resumen (3 productos)</Typography>
+                            <Typography variant="h2" sx={{ mb: 1 }}>Resumen ({ numberOfItems } { numberOfItems === 1 ? 'proudcto' : 'productos' })</Typography>
                             <Divider sx={{ my: 1 }} />
                             
                             <Box display='flex' justifyContent='space-between' alignItems='center'>
@@ -30,11 +44,12 @@ const SummaryPage = () => {
                                 </NextLink>
                             </Box>
 
-                            <Typography>Manuel Ulate</Typography>
-                            <Typography>200 Metros Norte de UCR</Typography>
-                            <Typography>San Ramón, Alajuela</Typography>
-                            <Typography>Costa Rica</Typography>
-                            <Typography>+506 8541231</Typography>
+                            <Typography>{ firstName } { lastName }</Typography>
+                            <Typography>{ address }{ address2 ? `, ${address2}` : '' }</Typography>
+                            <Typography>{ city }, { zip }</Typography>
+
+                            <Typography>{ countryName  }</Typography>
+                            <Typography>{ phone }</Typography>
 
                             <Divider sx={{ my: 1 }} />
 

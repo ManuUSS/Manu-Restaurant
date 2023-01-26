@@ -5,8 +5,9 @@ import { Button, FormControl, Grid, InputLabel, MenuItem, TextField, Typography,
 import { ShopLayout } from "components/layout"
 import { jasonwebtoken } from 'utils';
 import { countries } from 'utils/countries';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Cookie from 'js-cookie';
+import { CartContext } from 'context';
 
 type FormData = {
     firstName: string;
@@ -35,6 +36,7 @@ const getAddressFromCookies = ():FormData => {
 
 const AddressPage = () => {
 
+    const { updatedAdress } = useContext( CartContext );
 
     const router = useRouter();
 
@@ -43,14 +45,8 @@ const AddressPage = () => {
     }); 
 
     const onSubmitAdress = ( data: FormData ) => {
-        Cookie.set('firstName', data.firstName);
-        Cookie.set('lastName', data.lastName );
-        Cookie.set('address', data.address);
-        Cookie.set('address2', data.address2 || '');
-        Cookie.set('zip', data.zip);
-        Cookie.set('city', data.city);
-        Cookie.set('country', data.country);
-        Cookie.set('phone', data. phone);
+        updatedAdress( data );
+        console.log( data );
         router.push('/checkout/summary');
     }
 
@@ -131,12 +127,11 @@ const AddressPage = () => {
                     </Grid>
                     <Grid item xs={ 12 } sm={ 6 }>
                         <FormControl fullWidth>
-                            <InputLabel>País</InputLabel>
                             <TextField
                                 select 
                                 variant="filled" 
                                 label='País'
-                                defaultValue={ countries[0].name } 
+                                defaultValue={ Cookie.get('country') || countries[0].code } 
                                 { ...register('country', { 
                                     required: 'Este campo es requerido',
                                 })}
