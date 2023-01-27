@@ -1,4 +1,3 @@
-import React, { useMemo } from 'react';
 import NextLink from 'next/link';
 import { Typography, Grid, Card, CardContent, Divider, Box, Button, Link } from '@mui/material';
 import { CartList, OrderSummary } from 'components/cart';
@@ -10,12 +9,12 @@ import { countries } from 'utils/countries';
 const SummaryPage = () => {
 
     const { shippingAddress, numberOfItems } = useContext( CartContext );
-    console.log( shippingAddress );
+    
     if( !shippingAddress ) {
         return <></>
     }
 
-    const countryName = useMemo(() => countries.find( ( c ) => c.code === shippingAddress.country )?.name  , [ shippingAddress.country ]);
+    const countryName = countries.find( ( c ) => c.code === shippingAddress.country )?.name ;
 
     const { firstName,  lastName,  address,  city, phone, address2, zip } = shippingAddress;
 

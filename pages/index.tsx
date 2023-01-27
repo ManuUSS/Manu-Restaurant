@@ -2,7 +2,6 @@ import { Typography } from '@mui/material'
 import { ShopLayout } from "components/layout";
 import { ProductList } from 'components/products';
 import { Loader } from 'components/ui';
-import { initialData } from 'database/products';
 import { useProducts } from 'hooks';
 
 
