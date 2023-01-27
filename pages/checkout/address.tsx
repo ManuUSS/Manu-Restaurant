@@ -5,7 +5,7 @@ import { Button, FormControl, Grid, InputLabel, MenuItem, TextField, Typography,
 import { ShopLayout } from "components/layout"
 import { jasonwebtoken } from 'utils';
 import { countries } from 'utils/countries';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import Cookie from 'js-cookie';
 import { CartContext } from 'context';
 
@@ -40,9 +40,25 @@ const AddressPage = () => {
 
     const router = useRouter();
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>({
-        defaultValues: getAddressFromCookies()
+    const { register, handleSubmit, watch, formState: { errors }, reset } = useForm<FormData>({
+        defaultValues: {
+            firstName : '',
+            lastName : '',
+            address : '',
+            address2 : '',
+            zip : '',
+            city : '',
+            country : '',
+            phone : '',
+        }
     }); 
+
+    useEffect(() => {
+        
+        reset( getAddressFromCookies() );
+    
+    }, [])
+    
 
     const onSubmitAdress = ( data: FormData ) => {
         updatedAdress( data );
@@ -126,18 +142,18 @@ const AddressPage = () => {
                         />
                     </Grid>
                     <Grid item xs={ 12 } sm={ 6 }>
-                        <FormControl fullWidth>
-                            <TextField
-                                select 
+                        {/* <FormControl fullWidth> */}
+                            <TextField 
                                 variant="filled" 
                                 label='País'
-                                defaultValue={ Cookie.get('country') || countries[0].code } 
+                                fullWidth
                                 { ...register('country', { 
                                     required: 'Este campo es requerido',
                                 })}
                                 error = { !!errors.country }
+                                helperText = { errors.country?.message }
                             >
-                                {
+                                {/* {
                                     countries.map( ( country ) => (
                                         <MenuItem 
                                             key={ country.code } 
@@ -146,9 +162,9 @@ const AddressPage = () => {
                                             { country.name }
                                         </MenuItem>
                                     ))
-                                }
+                                } */}
                             </TextField>
-                        </FormControl>
+                        {/* </FormControl> */}
                     </Grid>
                     <Grid item xs={ 12 } sm={ 6 } >
                         <TextField 
