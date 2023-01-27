@@ -10,7 +10,7 @@ import { CartContext } from '../../context/cart/CartContext';
 const SummaryPage = () => {
 
     const router = useRouter();
-    const { shippingAddress, numberOfItems } = useContext( CartContext );
+    const { shippingAddress, numberOfItems, createOrder } = useContext( CartContext );
     
     useEffect(() => {
       
@@ -20,12 +20,13 @@ const SummaryPage = () => {
 
     }, [ router ]);
     
+    const onCreateOrder = () => {
+        createOrder();
+    }
 
     if( !shippingAddress ) {
         return <></>
     }
-
-    
 
     const { firstName,  lastName,  address,  city, phone, address2, zip, country } = shippingAddress;
 
@@ -75,7 +76,12 @@ const SummaryPage = () => {
 
                             
                             <Box sx={{ mt: 3 }}>
-                                <Button color="secondary" className="circular-btn" fullWidth>
+                                <Button 
+                                    color="secondary" 
+                                    className="circular-btn" 
+                                    fullWidth
+                                    onClick={ onCreateOrder }
+                                >
                                     Confirmar orden
                                 </Button>
                             </Box>
