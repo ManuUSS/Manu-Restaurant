@@ -1,6 +1,6 @@
 import { FC, useReducer, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import Cookie from 'js-cookie';
 import axios from 'axios';
 import { shopApi } from 'api';
@@ -96,7 +96,6 @@ export const AuthProvider:FC<Props> = ({ children }) => {
     } 
 
     const logoutUser = () => {
-        Cookie.remove('token');
         Cookie.remove('cart');
         Cookie.remove('firstName');
         Cookie.remove('lastName' );
@@ -106,7 +105,9 @@ export const AuthProvider:FC<Props> = ({ children }) => {
         Cookie.remove('city');
         Cookie.remove('country');
         Cookie.remove('phone');
-        router.reload();
+        signOut();
+        //Cookie.remove('token');
+        //router.reload();
     }
 
     return (
