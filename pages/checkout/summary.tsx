@@ -6,7 +6,6 @@ import { CartList, OrderSummary } from 'components/cart';
 import { ShopLayout } from 'components/layout';
 import { useContext, useEffect } from 'react';
 import { CartContext } from '../../context/cart/CartContext';
-import { countries } from 'utils/countries';
 
 const SummaryPage = () => {
 
