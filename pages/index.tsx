@@ -7,7 +7,11 @@ import { useProducts } from 'hooks';
 
 export default function Home() {
 
+  
+
   const { products, isLoading } = useProducts('/products');
+
+
   return (
     <ShopLayout title='Manu - Shop' pageDescription="Encuentra los mejores productos de Tesla aquí">
       <>
