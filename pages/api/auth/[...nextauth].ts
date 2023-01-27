@@ -22,6 +22,10 @@ export const authOptions: NextAuthOptions = {
         clientSecret: process.env.GITHUB_SECRET!,
       }),
   ],
+  pages: {
+    signIn: '/auth/login',
+    newUser: '/auth/register',
+  },
   callbacks: {
     async jwt({ token, account, user }) {
 
