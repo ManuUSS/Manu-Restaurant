@@ -28,7 +28,8 @@ const orderSchema = new Schema({
     tax             : { type: Number, require: true }, 
     total           : { type: Number, require: true }, 
     isPaid          : { type: Boolean, require: true, default: false }, 
-    paidAt          : { type: String }
+    paidAt          : { type: String },
+    transactionId   : { type: String }
     
 }, {
     timestamps: true

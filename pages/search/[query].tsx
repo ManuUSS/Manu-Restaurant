@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from 'next';
+import type {  GetServerSideProps, NextPage } from 'next';
 import { Typography } from "@mui/material";
 import { ShopLayout } from "components/layout";
 import { ProductList } from "components/products";
@@ -30,25 +30,29 @@ const SearchPage:NextPage<Props> = ({ products, foundProducts, query }) => {
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+// You should use getServerSideProps when:
+// - Only if you need to pre-render a page whose data must be fetched at request time
+
+
+export const getServerSideProps: GetServerSideProps = async ({ params } ) => {
     
-    const { query = '' } = params as { query: string };  
+    const { query = '' } = params as { query: string };
 
     if ( query.length === 0 ) {
         return {
             redirect: {
                 destination: '/',
-                permanent: 'false'
+                permanent: true
             }
         }
     }
 
     let products = await dbProducts.getProductsByTerm( query );
-
     const foundProducts = products.length > 0;
 
-    if( !foundProducts ) {
-        products = await dbProducts.getAllProducts();
+    if ( !foundProducts ) {
+        // products = await dbProducts.getAllProducts(); 
+        products = await dbProducts.getProductsByTerm('shirt');
     }
 
     return {
@@ -58,6 +62,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
             query
         }
     }
+
 }
 
 export default SearchPage

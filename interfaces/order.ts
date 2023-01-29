@@ -4,13 +4,14 @@ export interface IOrder {
     user?: IUser | string;
     orderItems: IOrderItem[];
     shippingAddress: ShippingAddress;
-    paymentResut?: string;
-    numberOfItems: number;
-    subTotal     : number; 
-    tax          : number; 
-    total        : number;
-    isPaid       : boolean;
-    paidAt?      : string; 
+    paymentResut?   : string;
+    numberOfItems   : number;
+    subTotal        : number; 
+    tax             : number; 
+    total           : number;
+    isPaid          : boolean;
+    paidAt?         : string; 
+    transactionId?  : string;
 }
 
 export interface IOrderItem {
