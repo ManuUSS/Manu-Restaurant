@@ -8,7 +8,6 @@ import { ShopLayout } from 'components/layout';
 import { getSession } from 'next-auth/react';
 import { dbOrders } from 'database';
 import { IOrder } from '../../interfaces/order';
-import products from 'pages/api/products';
 
 interface Props {
     order: IOrder
@@ -55,18 +54,31 @@ const OrderPage: NextPage<Props> = ({ order }) => {
 
                             <Divider sx={{ my: 1 }} />
 
-                            <OrderSummary />
+                            <OrderSummary orderValues={{
+                                numberOfItems: order.numberOfItems,
+                                subTotal: order.subTotal,
+                                total: order.total,
+                                taxRate: order.tax,
+                            }} />
 
                             
-                            <Box sx={{ mt: 3 }}>
-                                <h1>Pagar</h1>
-                                <Chip 
-                                    sx={{ my: 2}} 
-                                    label='Orden pagada' 
-                                    variant='outlined' 
-                                    color='success' 
-                                    icon={ <CreditScoreOutlined />}
-                                />
+                            <Box sx={{ mt: 3 }} display='flex' flexDirection='column'>
+                                {
+                                    order.isPaid 
+                                    ? (
+                                        <Chip 
+                                            sx={{ my: 2}} 
+                                            label='Orden pagada' 
+                                            variant='outlined' 
+                                            color='success' 
+                                            icon={ <CreditScoreOutlined />}
+                                        />
+                                    )
+                                    : (
+                                        <h1>Pagar</h1>
+                                    )
+                                }
+                                
                             </Box>
 
                         </CardContent>
