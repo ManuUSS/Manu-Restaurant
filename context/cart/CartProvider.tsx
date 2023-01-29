@@ -162,6 +162,7 @@ export const CartProvider:FC<Props> = ({ children }) => {
 
         try {
             const { data } = await shopApi.post<IOrder>( '/orders', body );
+            dispatch({ type: '[Cart] - Order complete' });
 
             return {
                 hasError: false,
@@ -194,3 +195,4 @@ export const CartProvider:FC<Props> = ({ children }) => {
         </CartContext.Provider>
     )
 }
+
