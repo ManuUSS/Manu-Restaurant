@@ -3,6 +3,7 @@ import Cookie from 'js-cookie';
 import { ICartProduct, ShippingAddress } from 'interfaces';
 import { CartContext, cartReducer } from './';
 import { shopApi } from 'api';
+import { IOrder } from '../../interfaces/order';
 
 
 export interface CartState {
@@ -139,10 +140,27 @@ export const CartProvider:FC<Props> = ({ children }) => {
     }
 
     const createOrder = async () => {
-        try {
-            const { data } = await shopApi.post( '/orders', {
 
-            })
+        if( state.shippingAddress ) 
+        {
+            throw new Error('No hay dirección de entrega');
+        }
+
+        const body:IOrder = {
+            orderItems: state.cart.map( ( product ) => ({
+                ...product,
+                size: product.size!
+            })),
+            shippingAddress: state.shippingAddress!,
+            numberOfItems: state.numberOfItems,
+            subTotal: state.subTotal,
+            tax: state.taxRate,
+            total: state.total,
+            isPaid: false
+        } 
+
+        try {
+            const { data } = await shopApi.post( '/orders', body )
         } catch (error) {
             console.log( error );
         }
