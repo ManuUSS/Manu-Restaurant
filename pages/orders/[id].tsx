@@ -1,11 +1,11 @@
 import React from 'react';
 import { GetServerSideProps, NextPage } from 'next';
-import NextLink from 'next/link';
-import { Typography, Grid, Card, CardContent, Divider, Box, Button, Link, Chip } from '@mui/material';
+import { getSession } from 'next-auth/react';
+import { PayPalButtons } from "@paypal/react-paypal-js";
+import { Typography, Grid, Card, CardContent, Divider, Box, Chip } from '@mui/material';
 import { CreditCardOffOutlined, CreditScoreOutlined } from '@mui/icons-material';
 import { CartList, OrderSummary } from 'components/cart';
 import { ShopLayout } from 'components/layout';
-import { getSession } from 'next-auth/react';
 import { dbOrders } from 'database';
 import { IOrder } from '../../interfaces/order';
 
@@ -75,7 +75,25 @@ const OrderPage: NextPage<Props> = ({ order }) => {
                                         />
                                     )
                                     : (
-                                        <h1>Pagar</h1>
+                                        <PayPalButtons
+                                            createOrder={(data, actions) => {
+                                                return actions.order.create({
+                                                    purchase_units: [
+                                                        {
+                                                            amount: {
+                                                                value: "1.99",
+                                                            },
+                                                        },
+                                                    ],
+                                                });
+                                            }}
+                                            onApprove={( data, actions ) => {
+                                                return actions.order!.capture().then((details) => {
+                                                    const name = details.payer.name!.given_name;
+                                                    alert(`Transaction completed by ${name}`);
+                                                });
+                                            }}
+                                        />
                                     )
                                 }
                                 
