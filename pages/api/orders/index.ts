@@ -60,11 +60,13 @@ const createOrder = async ( req: NextApiRequest, res: NextApiResponse<Data> ) =>
         const userId = session.user._id; 
         const newOrder = new Order({ ...req.body, isPaid: false, user: userId });
         await newOrder.save();
+        await db.disconnect();
 
         return res.status(201).json( newOrder );
 
     } catch ( error ) {
         await db.disconnect();
+        console.log( error );
         return res.status(400).json({ message: 'Revisar los logs del servidor' });
     }
 

@@ -13,7 +13,7 @@ export interface CardContextProps {
     updateCartQuantity: (product: ICartProduct) => void;
     removeProductFromCart: (product: ICartProduct) => void;
     updatedAdress: (address: ShippingAddress) => void;
-    createOrder: () => Promise<void>;
+    createOrder: () => Promise<{ hasError: boolean; message: string }>;
 }
 
 

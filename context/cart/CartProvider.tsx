@@ -4,6 +4,7 @@ import { ICartProduct, ShippingAddress } from 'interfaces';
 import { CartContext, cartReducer } from './';
 import { shopApi } from 'api';
 import { IOrder } from '../../interfaces/order';
+import axios from 'axios';
 
 
 export interface CartState {
@@ -139,7 +140,7 @@ export const CartProvider:FC<Props> = ({ children }) => {
         dispatch({ type: '[Cart] - Update adress', payload: address })
     }
 
-    const createOrder = async () => {
+    const createOrder = async (): Promise<{ hasError: boolean; message: string }> => {
 
         if( state.shippingAddress ) 
         {
@@ -160,9 +161,24 @@ export const CartProvider:FC<Props> = ({ children }) => {
         } 
 
         try {
-            const { data } = await shopApi.post( '/orders', body )
+            const { data } = await shopApi.post<IOrder>( '/orders', body );
+
+            return {
+                hasError: false,
+                message: data._id!
+            }
+
         } catch (error) {
-            console.log( error );
+            if( axios.isAxiosError( error ) ) {
+                return {
+                    hasError: true,
+                    message: error.response?.data.message
+                }
+            }
+            return {
+                hasError: true,
+                message: 'Error no controlado'
+            }
         }
     }
 
