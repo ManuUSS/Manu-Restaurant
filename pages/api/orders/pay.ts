@@ -85,6 +85,7 @@ const payOrder = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     
     dbOrder.transactionId = transactionId;
     dbOrder.isPaid = true;
+    dbOrder.save();
     await db.disconnect();
 
 

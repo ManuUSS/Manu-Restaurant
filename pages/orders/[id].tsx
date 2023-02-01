@@ -8,6 +8,18 @@ import { CartList, OrderSummary } from 'components/cart';
 import { ShopLayout } from 'components/layout';
 import { dbOrders } from 'database';
 import { IOrder } from '../../interfaces/order';
+import { shopApi } from 'api';
+import { useRouter } from 'next/router';
+
+export type OrderResponseBody = {
+    id: string;
+    status:
+        | "COMPLETED"
+        | "SAVED"
+        | "APPROVED"
+        | "VOIDED"
+        | "PAYER_ACTION_REQUIRED";
+};
 
 interface Props {
     order: IOrder
@@ -15,7 +27,19 @@ interface Props {
 
 const OrderPage: NextPage<Props> = ({ order }) => {
 
+    const router = useRouter();
     const { shippingAddress } = order;
+
+    const onOrderCompleted = async ( details: OrderResponseBody ) => {
+        if( details.status !== 'COMPLETED' ) return alert('No hay pago en PayPal')
+
+        try {
+            const { data } = await shopApi.post(`/orders/pay`,{ transactionId: details.id, orderId: order._id })
+            router.reload();
+        } catch (error) {
+            console.log( error );
+        }
+    }
 
   return (
     <ShopLayout title="Resumen de la orden 1223" pageDescription="Resumen de la orden">
@@ -89,6 +113,7 @@ const OrderPage: NextPage<Props> = ({ order }) => {
                                             }}
                                             onApprove={( data, actions ) => {
                                                 return actions.order!.capture().then((details) => {
+                                                    onOrderCompleted( details );
                                                     const name = details.payer.name!.given_name;
                                                     alert(`Transaction completed by ${name}`);
                                                 });
