@@ -1,4 +1,4 @@
-import { SearchOutlined, AccountCircleOutlined, ConfirmationNumberOutlined, MaleOutlined, FemaleOutlined, EscalatorWarningOutlined, VpnKeyOutlined, LoginOutlined, CategoryOutlined, AdminPanelSettings } from "@mui/icons-material"
+import { SearchOutlined, AccountCircleOutlined, ConfirmationNumberOutlined, MaleOutlined, FemaleOutlined, EscalatorWarningOutlined, VpnKeyOutlined, LoginOutlined, CategoryOutlined, AdminPanelSettings, DashboardOutlined } from '@mui/icons-material';
 import { Box, Divider, Drawer, IconButton, Input, InputAdornment, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from "@mui/material"
 import { useContext, useState } from 'react';
 import { UIContext, AuthContext } from '../../context';
@@ -137,11 +137,13 @@ export const SideMenu = () => {
                         <>
                             <ListSubheader>Admin Panel</ListSubheader>
 
-                            <ListItemButton>
+                            <ListItemButton
+                                onClick={ () => navigateTo('/admin/') }
+                            >
                                 <ListItemIcon>
-                                    <CategoryOutlined/>
+                                    <DashboardOutlined />
                                 </ListItemIcon>
-                                <ListItemText primary={'Productos'} />
+                                <ListItemText primary={'Dasboard'} />
                             </ListItemButton>
                             <ListItemButton>
                                 <ListItemIcon>
