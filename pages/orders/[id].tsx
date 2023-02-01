@@ -81,7 +81,7 @@ const OrderPage: NextPage<Props> = ({ order }) => {
                                                     purchase_units: [
                                                         {
                                                             amount: {
-                                                                value: "1.99",
+                                                                value: `${order.total}`,
                                                             },
                                                         },
                                                     ],
